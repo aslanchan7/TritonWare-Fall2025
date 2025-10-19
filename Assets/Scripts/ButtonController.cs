@@ -23,21 +23,21 @@ public class ButtonController : MonoBehaviour
             // Handle note hitting logic
             if (collidingNote == null)
             {
-                ScoreManager.Instance.NoteMissed();
+                ScoreManager.Instance.NoteMissed(transform);
             }
             else
             {
                 if(!collidingNote.IsLongNote)
                 {
                     bool perfectHit = Mathf.Abs(collidingNote.transform.position.y - transform.position.y) <= perfectHitWindow;
-                    ScoreManager.Instance.NoteHit(perfectHit);
+                    ScoreManager.Instance.NoteHit(perfectHit, transform);
 
                     collidingNote.gameObject.SetActive(false);
                     collidingNote = null;                    
                 } else
                 {
                     bool perfectHit = Mathf.Abs(collidingNote.StartCollider.transform.position.y - transform.position.y) <= perfectHitWindow;
-                    ScoreManager.Instance.NoteHit(perfectHit);                    
+                    ScoreManager.Instance.NoteHit(perfectHit, transform);                    
                 }
             }
         }
@@ -52,14 +52,14 @@ public class ButtonController : MonoBehaviour
                 if (currCollision == collidingNote.EndCollider)
                 {
                     bool perfectHit = Mathf.Abs(collidingNote.EndCollider.transform.position.y - transform.position.y) <= perfectHitWindow;
-                    ScoreManager.Instance.NoteHit(perfectHit);
+                    ScoreManager.Instance.NoteHit(perfectHit, transform);
 
                     collidingNote.gameObject.SetActive(false);
                     collidingNote = null;
                 }
                 else
                 {
-                    ScoreManager.Instance.NoteMissed();
+                    ScoreManager.Instance.NoteMissed(transform);
 
                     collidingNote.gameObject.SetActive(false);
                 }
@@ -92,17 +92,17 @@ public class ButtonController : MonoBehaviour
 
             if (noteObject.gameObject.activeSelf)
             {
-                ScoreManager.Instance.NoteMissed();
+                ScoreManager.Instance.NoteMissed(transform);
             }
         }
         else if (collision.transform.parent.TryGetComponent(out NoteObject longNote))
         {
             if (longNote.StartCollider == collision && !Input.GetKey(KeyToPress))
             {
-                ScoreManager.Instance.NoteMissed();
+                ScoreManager.Instance.NoteMissed(transform);
             } else if(longNote.EndCollider == collision && Input.GetKey(KeyToPress))
             {
-                ScoreManager.Instance.NoteMissed();
+                ScoreManager.Instance.NoteMissed(transform);
                 collidingNote = null;
             }
         }

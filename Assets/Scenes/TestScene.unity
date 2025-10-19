@@ -389,6 +389,7 @@ MonoBehaviour:
   ScoreMult: 1
   scorePerPerfect: 150
   scorePerHit: 100
+  textPopUpPrefab: {fileID: 2226552511685250886, guid: 6834f8c2a9cf3d34599ddc2cdbb3de3e, type: 3}
 --- !u!4 &342371747
 Transform:
   m_ObjectHideFlags: 0
