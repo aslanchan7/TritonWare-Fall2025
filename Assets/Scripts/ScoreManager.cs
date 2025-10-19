@@ -6,6 +6,9 @@ public class ScoreManager : MonoBehaviour
     
     public int Score;
     public int CurrentCombo;
+    public float ScoreMult = 1f;
+    [SerializeField] private int scorePerPerfect;
+    [SerializeField] private int scorePerHit;
 
     void Awake()
     {
@@ -38,21 +41,24 @@ public class ScoreManager : MonoBehaviour
     {
         if (perfectHit)
         {
-            Debug.Log("Perfect!");
+            ScoreMult = ScoreMult >= 3.8f ? 4f : ScoreMult + 0.2f;
+            int score = (int)(scorePerPerfect * ScoreMult);
+            UpdateScore(score);
         }
         else
         {
-            Debug.Log("Note Hit!");
+            ScoreMult = ScoreMult >= 3.9f ? 4f : ScoreMult + 0.1f;
+            int score = (int)(scorePerHit * ScoreMult);
+            UpdateScore(score);
         }
         
         IncrementCurrentCombo();
-        UpdateScore(100);
     }
     
     public void NoteMissed()
     {
-        Debug.Log("Note Missed!");
-        
+        ScoreMult = ScoreMult > 1.3f ? ScoreMult - 0.3f : 1f;
+    
         ResetCombo();
     }
 }
