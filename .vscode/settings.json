@@ -56,5 +56,7 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "TritonWare-Fall2025.sln"
+    "dotnet.defaultSolution": "TritonWare-Fall2025.sln",
+    "editor.defaultFormatter": null,
+    "editor.formatOnSave": false
 }
