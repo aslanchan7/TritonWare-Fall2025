@@ -72,6 +72,8 @@ public class ScoreManager : MonoBehaviour
 
     public void NoteMissed(Transform button)
     {
+        HealthManager.Instance.LoseHealth();
+
         ScoreMult = ScoreMult > 1.3f ? ScoreMult - 0.3f : 1f;
 
         InstantiateTextPopUp("Miss!", new Color(1f, 0.28f, 0.3f), button.position);
