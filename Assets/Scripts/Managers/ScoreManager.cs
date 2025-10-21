@@ -45,7 +45,6 @@ public class ScoreManager : MonoBehaviour
         instantiated.GetComponent<TextMeshPro>().text = text;
         instantiated.GetComponent<TextMeshPro>().color = color;
         instantiated.transform.position = pos;
-
     }
 
     public void NoteHit(bool perfectHit, Transform button)

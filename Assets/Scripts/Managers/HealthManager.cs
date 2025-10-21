@@ -34,7 +34,7 @@ public class HealthManager : MonoBehaviour
         if (health < 0f)
         {
             health = 0f;
-            
+            ResultsManager.Instance.ShowResultsMenu();
         }
     }
 }

@@ -47,7 +47,7 @@ public class ButtonController : MonoBehaviour
             transform.localScale = initScale;
 
             // Handle releasing on long notes
-            if (collidingNote != null)
+            if (collidingNote != null && collidingNote.EndCollider != null)
             {
                 if (currCollision == collidingNote.EndCollider)
                 {

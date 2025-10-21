@@ -13,6 +13,7 @@ public class ScoreUI : MonoBehaviour
     [SerializeField] float scaleTime;
     [SerializeField] float countTime;
     private int currScore;
+    private bool isIncrementing = false;
     
     void Start()
     {
@@ -43,13 +44,11 @@ public class ScoreUI : MonoBehaviour
 
     void UpdateScoreText()
     {
-        string newText = $"Score: {ScoreManager.Instance.Score}";
-        if(scoreText.text != newText)
+        string newText = $"Score: {ScoreManager.Instance.Score:N0}";
+        if(scoreText.text != newText && !isIncrementing)
         {
-            // scoreText.text = "Score: " + ScoreManager.Instance.Score;
-            // StopCoroutine(TextCountAnimation(scoreText, ScoreManager.Instance.Score));
-
-            StartCoroutine(TextCountAnimation(scoreText, ScoreManager.Instance.Score));
+            TextCountAnimation(scoreText, ScoreManager.Instance.Score);
+            isIncrementing = true;
         }
     }
 
@@ -87,16 +86,15 @@ public class ScoreUI : MonoBehaviour
         yield return null;
     }
     
-    private IEnumerator TextCountAnimation(TextMeshProUGUI textObject, int finalScore)
+    private void TextCountAnimation(TextMeshProUGUI textObject, int finalScore)
     {
-        // int currScore = this.currScore;
-        // int increment = (finalScore - currScore) / AnimIncrements;
-        while (currScore <= finalScore)
+        LeanTween.value(currScore, finalScore, countTime).setOnUpdate((float val) =>
         {
-            currScore += 1;
-            textObject.text = $"Score: {currScore}";
-            yield return new WaitForSeconds(countTime / (float)(finalScore - currScore));
-        }
-        textObject.text = $"Score: {finalScore}"; ;
+            currScore = (int)val;
+            textObject.text = $"Score: {val:N0}";
+        }).setOnComplete(() =>
+        {
+            isIncrementing = false;
+        });
     }
 }
