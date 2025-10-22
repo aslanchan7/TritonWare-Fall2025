@@ -3,7 +3,6 @@ using UnityEngine;
 public class NoteScroller : MonoBehaviour
 {
     public float BeatTempo;
-    public bool hasStarted;
     private float noteSpeed;
 
     void Start()
@@ -13,7 +12,7 @@ public class NoteScroller : MonoBehaviour
 
     void Update()
     {
-        if(hasStarted)
+        if(GameManager.Instance.IsPlaying)
         {
             transform.position -= new Vector3(0f, noteSpeed * Time.deltaTime, 0f);
         }

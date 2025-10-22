@@ -31,10 +31,11 @@ public class HealthManager : MonoBehaviour
     {
         health -= healthLossPerMiss;
 
-        if (health < 0f)
+        if (health <= 0f)
         {
             health = 0f;
             ResultsManager.Instance.ShowResultsMenu();
+            GameManager.Instance.IsPlaying = false;
         }
     }
 }

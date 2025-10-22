@@ -16,6 +16,8 @@ public class ButtonController : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.Instance.IsPlaying) return;
+        
         if (Input.GetKeyDown(KeyToPress))
         {
             transform.localScale = Vector3.one;

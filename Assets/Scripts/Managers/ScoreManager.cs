@@ -5,12 +5,18 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
     
-    public int Score;
     public int CurrentCombo;
     public float ScoreMult = 1f;
     [SerializeField] private int scorePerPerfect;
     [SerializeField] private int scorePerHit;
     [SerializeField] private GameObject textPopUpPrefab;
+
+    [Header("Stats")]
+    public int Score;
+    public int PerfectHits;
+    public int GoodHits;
+    public int MissedNotes;
+    public int MaxCombo;
 
     void Awake()
     {
@@ -32,6 +38,8 @@ public class ScoreManager : MonoBehaviour
     private void IncrementCurrentCombo()
     {
         CurrentCombo++;
+
+        MaxCombo = CurrentCombo > MaxCombo ? CurrentCombo : MaxCombo;
     }
 
     private void ResetCombo()
@@ -49,9 +57,12 @@ public class ScoreManager : MonoBehaviour
 
     public void NoteHit(bool perfectHit, Transform button)
     {
+        // if (!GameManager.Instance.IsPlaying) return; 
+
         if (perfectHit)
         {
             ScoreMult = ScoreMult >= 3.8f ? 4f : ScoreMult + 0.2f;
+            PerfectHits++;
             int score = (int)(scorePerPerfect * ScoreMult);
             UpdateScore(score);
 
@@ -60,6 +71,7 @@ public class ScoreManager : MonoBehaviour
         else
         {
             ScoreMult = ScoreMult >= 3.9f ? 4f : ScoreMult + 0.1f;
+            GoodHits++;
             int score = (int)(scorePerHit * ScoreMult);
             UpdateScore(score);
 
@@ -71,6 +83,10 @@ public class ScoreManager : MonoBehaviour
 
     public void NoteMissed(Transform button)
     {
+        // if (!GameManager.Instance.IsPlaying) return; 
+
+        MissedNotes++;
+
         HealthManager.Instance.LoseHealth();
 
         ScoreMult = ScoreMult > 1.3f ? ScoreMult - 0.3f : 1f;
