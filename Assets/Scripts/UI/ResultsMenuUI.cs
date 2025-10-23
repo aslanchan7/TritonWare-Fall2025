@@ -1,10 +1,13 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ResultsMenuUI : MonoBehaviour
 {
+    private bool isAnimating = true;
+
     [Header("Background")]
     [SerializeField] RectTransform backgroundLeft, backgroundRight;
     [SerializeField] float backgroundAnimTime;
@@ -28,8 +31,14 @@ public class ResultsMenuUI : MonoBehaviour
     [SerializeField] RectTransform leaderboard;
     [SerializeField] float leaderboardAnimTime;
 
+    [Header("Continue Text")]
+    [SerializeField] CanvasGroup continueText;
+    [SerializeField] float continueTextAnimTime;
+
     public void StartAnimation()
     {
+        isAnimating = true;
+
         // Setup to initial values
         backgroundLeft.sizeDelta = new(0, backgroundLeft.sizeDelta.y);
         backgroundRight.sizeDelta = new(0, backgroundLeft.sizeDelta.y);
@@ -49,6 +58,9 @@ public class ResultsMenuUI : MonoBehaviour
 
         leaderboard.gameObject.SetActive(false);
         leaderboard.GetComponent<CanvasGroup>().alpha = 0f;
+
+        continueText.alpha = 0f;
+        continueText.gameObject.SetActive(false);
 
         // background closes like a door
         LeanTween.value(0f, 960f, backgroundAnimTime).setOnUpdate((float val) =>
@@ -139,7 +151,9 @@ public class ResultsMenuUI : MonoBehaviour
         }).setEaseInExpo().setOnComplete(() =>
         {
             // Leaderboard Animation
-            StartCoroutine(StartLeaderboardAnim());
+            // StartCoroutine(StartLeaderboardAnim());
+
+            StartCoroutine(StartContinueTextAnim());
         });
     }
 
@@ -152,6 +166,16 @@ public class ResultsMenuUI : MonoBehaviour
             leaderboard.GetComponent<CanvasGroup>().alpha = val;
         });
     }
+
+    IEnumerator StartContinueTextAnim()
+    {
+        yield return new WaitForSeconds(0.5f);
+        continueText.gameObject.SetActive(true);
+        continueText.LeanAlpha(1f, continueTextAnimTime).setOnComplete(() =>
+        {
+            isAnimating = false;
+        });
+    }
     
     void SetRankingGradeImage()
     {
@@ -161,9 +185,10 @@ public class ResultsMenuUI : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.G))
+        if(Input.GetKeyDown(KeyCode.Space) && !isAnimating)
         {
-            StartAnimation();
+            // Load Main Menu Scene
+            SceneManager.LoadScene(0);
         }
     }
 }

@@ -44,10 +44,5 @@ public class GameManager : MonoBehaviour
         {
             StartGame();
         }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetGame();
-        }
     }
 }
