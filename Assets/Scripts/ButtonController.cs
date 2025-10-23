@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class ButtonController : MonoBehaviour
 {
     public KeyCode KeyToPress;
@@ -8,9 +9,12 @@ public class ButtonController : MonoBehaviour
     private NoteObject collidingNote;
     private Collider2D currCollision;
     [SerializeField] private float perfectHitWindow = 0.1f;
+    [SerializeField] Sprite pressedSprite;
+    private Sprite normalSprite;
 
     void Start()
     {
+        normalSprite = GetComponent<SpriteRenderer>().sprite;
         initScale = transform.localScale;
     }
 
@@ -20,7 +24,7 @@ public class ButtonController : MonoBehaviour
         
         if (Input.GetKeyDown(KeyToPress))
         {
-            transform.localScale = Vector3.one;
+            GetComponent<SpriteRenderer>().sprite = pressedSprite;
 
             // Handle note hitting logic
             if (collidingNote == null)
@@ -46,8 +50,8 @@ public class ButtonController : MonoBehaviour
 
         if (Input.GetKeyUp(KeyToPress))
         {
-            transform.localScale = initScale;
-
+            GetComponent<SpriteRenderer>().sprite = normalSprite;
+            
             // Handle releasing on long notes
             if (collidingNote != null && collidingNote.EndCollider != null)
             {

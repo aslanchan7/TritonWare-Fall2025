@@ -1,8 +1,7 @@
 using System.Collections;
-using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResultsMenuUI : MonoBehaviour
 {
@@ -19,6 +18,7 @@ public class ResultsMenuUI : MonoBehaviour
     [SerializeField] RectTransform ranking;
     [SerializeField] float rankingAnimTime;
     [SerializeField] float rankingInitScale;
+    [SerializeField] Sprite[] gradeImages;
 
     [Header("Game Stats")]
     [SerializeField] RectTransform stats;
@@ -38,6 +38,7 @@ public class ResultsMenuUI : MonoBehaviour
         title.GetComponent<TextMeshProUGUI>().alpha = 0f;
 
         ranking.gameObject.SetActive(false);
+        SetRankingGradeImage();
 
 
         stats.gameObject.SetActive(false);
@@ -141,7 +142,7 @@ public class ResultsMenuUI : MonoBehaviour
             StartCoroutine(StartLeaderboardAnim());
         });
     }
-    
+
     IEnumerator StartLeaderboardAnim()
     {
         yield return new WaitForSeconds(0.5f);
@@ -150,6 +151,12 @@ public class ResultsMenuUI : MonoBehaviour
         {
             leaderboard.GetComponent<CanvasGroup>().alpha = val;
         });
+    }
+    
+    void SetRankingGradeImage()
+    {
+        Grade grade = ResultsManager.Instance.GetGrade();
+        ranking.Find("GradeImage").GetComponent<Image>().sprite = gradeImages[(int)grade];
     }
 
     void Update()

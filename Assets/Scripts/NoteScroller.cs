@@ -14,7 +14,7 @@ public class NoteScroller : MonoBehaviour
     {
         if(GameManager.Instance.IsPlaying)
         {
-            transform.position -= new Vector3(0f, noteSpeed * Time.deltaTime, 0f);
+            transform.position -= new Vector3(0f, noteSpeed * AudioManager.Instance.GetDeltaTime(), 0f);
         }
     }
 }

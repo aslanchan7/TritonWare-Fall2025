@@ -34,8 +34,7 @@ public class HealthManager : MonoBehaviour
         if (health <= 0f)
         {
             health = 0f;
-            ResultsManager.Instance.ShowResultsMenu();
-            GameManager.Instance.IsPlaying = false;
+            GameManager.Instance.EndGame();
         }
     }
 }
